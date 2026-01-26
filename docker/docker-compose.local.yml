@@ -1,0 +1,13 @@
+services:
+  my-portfolio:
+    network_mode: host
+    container_name: my-portfolio
+    build:
+      context: .
+      dockerfile: Dockerfile.local
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../:/app
+    tty: true
+    stdin_open: true
