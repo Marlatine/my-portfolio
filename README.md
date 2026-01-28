@@ -1,46 +1,44 @@
-# Astro Starter Kit: Basics
+# Personal Portfolio
 
-```sh
-bun create astro@latest -- --template basics
-```
+This is my personal portfolio website built with **Astro** and **Tailwind CSS**.  
+It showcases my profile, skills, projects, and (optionally) blog posts.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+The goal of this project is to stay **simple, fast, and maintainable**, while clearly presenting who I am and what I build.
 
-## 🚀 Project Structure
+---
 
-Inside of your Astro project, you'll see the following folders and files:
+## ✨ Features
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
+- **Profile section** – personal information, skills, and background
+- **Projects section** – curated list of personal and professional projects
+- **Blog (optional)** – technical notes, learnings, or experiments
+- **Light/Dark theme** using CSS variables
+- **Minimal JavaScript** (Astro-first approach)
+- **Responsive & accessible** by default
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+---
 
-## 🧞 Commands
+## 🧱 Tech Stack
 
-All commands are run from the root of the project, from a terminal:
+- **Astro** – static-first framework with island architecture
+- **Tailwind CSS** – utility-first styling for layout and spacing
+- **CSS Variables** – custom theme tokens (light/dark mode)
+- **Docker** – consistent local and production environments
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `bun install`             | Installs dependencies                            |
-| `bun dev`             | Starts local dev server at `localhost:4321`      |
-| `bun build`           | Build your production site to `./dist/`          |
-| `bun preview`         | Preview your build locally, before deploying     |
-| `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `bun astro -- --help` | Get help using the Astro CLI                     |
+---
 
-## 👀 Want to learn more?
+## 🎨 Styling Approach
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+This project intentionally avoids heavy UI libraries.
+
+- Global design tokens are defined using **CSS variables**
+- Layout and spacing are handled with **Tailwind utilities**
+- Components are kept small and reusable using Astro
+
+This keeps the codebase:
+
+- easy to reason about
+- fast to load
+- flexible to evolve
+
+---
