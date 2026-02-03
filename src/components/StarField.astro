@@ -1,0 +1,135 @@
+<div class="star-field" aria-hidden="true">
+  <div class="stars stars-static"></div>
+  <div class="stars stars-twinkle"></div>
+  <div class="bg-gradient-glow-top absolute top-0 left-0 w-full h-full"></div>
+</div>
+
+<style>
+  .star-field {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-repeat: repeat;
+  }
+
+  /* Dark mode stars - light/white colors */
+  :global([data-theme="dark"]) .stars-static {
+    background-image:
+      radial-gradient(
+        1px 1px at 120px 80px,
+        rgba(255, 255, 255, 0.5),
+        transparent
+      ),
+      radial-gradient(
+        1px 1px at 350px 200px,
+        rgba(255, 255, 255, 0.4),
+        transparent
+      ),
+      radial-gradient(
+        1px 1px at 580px 120px,
+        rgba(255, 255, 255, 0.5),
+        transparent
+      ),
+      radial-gradient(
+        1px 1px at 800px 300px,
+        rgba(255, 255, 255, 0.3),
+        transparent
+      );
+    background-size: 900px 400px;
+    opacity: 0.4;
+  }
+
+  :global([data-theme="dark"]) .stars-twinkle {
+    background-image:
+      radial-gradient(
+        1.5px 1.5px at 200px 150px,
+        rgba(200, 180, 255, 0.8),
+        transparent
+      ),
+      radial-gradient(
+        2px 2px at 600px 250px,
+        rgba(255, 255, 255, 0.7),
+        transparent
+      ),
+      radial-gradient(
+        1.5px 1.5px at 400px 400px,
+        rgba(180, 160, 220, 0.6),
+        transparent
+      );
+    background-size: 800px 500px;
+    animation: gentle-twinkle 12s ease-in-out infinite;
+    opacity: 1;
+  }
+
+  /* Light mode stars - darker purple tones */
+  :global([data-theme="light"]) .stars-static {
+    background-image:
+      radial-gradient(
+        1px 1px at 120px 80px,
+        rgba(139, 92, 246, 0.4),
+        transparent
+      ),
+      radial-gradient(
+        1px 1px at 350px 200px,
+        rgba(123, 104, 184, 0.35),
+        transparent
+      ),
+      radial-gradient(
+        1px 1px at 580px 120px,
+        rgba(139, 92, 246, 0.4),
+        transparent
+      ),
+      radial-gradient(
+        1px 1px at 800px 300px,
+        rgba(107, 91, 149, 0.3),
+        transparent
+      );
+    background-size: 900px 400px;
+    opacity: 0.5;
+  }
+
+  :global([data-theme="light"]) .stars-twinkle {
+    background-image:
+      radial-gradient(
+        1.5px 1.5px at 200px 150px,
+        rgba(139, 92, 246, 0.6),
+        transparent
+      ),
+      radial-gradient(
+        2px 2px at 600px 250px,
+        rgba(123, 104, 184, 0.5),
+        transparent
+      ),
+      radial-gradient(
+        1.5px 1.5px at 400px 400px,
+        rgba(107, 91, 149, 0.45),
+        transparent
+      );
+    background-size: 800px 500px;
+    animation: gentle-twinkle 4s ease-in-out infinite;
+    opacity: 1;
+  }
+
+  @keyframes gentle-twinkle {
+    0%,
+    100% {
+      opacity: 0.3;
+    }
+    50% {
+      opacity: 0.6;
+    }
+  }
+</style>
