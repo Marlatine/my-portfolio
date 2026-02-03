@@ -37,7 +37,7 @@ const getLatestStart = (exp: WorkExperience) => {
 <>
   <section aria-labelledby="Work experience" class="w-full">
     <Heading tag="h3" size="h3" icon="work">Work Experience</Heading>
-    <div class="mt-6 space-y-4">
+    <div class="mt-6 space-y-4 bg-gradient-glow-top">
       {
         workExperience
           .sort((a, b) => getLatestStart(b) - getLatestStart(a))
@@ -95,7 +95,7 @@ const getLatestStart = (exp: WorkExperience) => {
 
   <section aria-labelledby="Education" class="w-full">
     <Heading tag="h3" size="h3" icon="school"> Education </Heading>
-    <div class="mt-6 space-y-4">
+    <div class="mt-6 space-y-4 bg-gradient-glow-top">
       {
         educationExperience
           .sort((a, b) => b.data.start.getTime() - a.data.start.getTime())
