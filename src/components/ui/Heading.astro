@@ -13,9 +13,10 @@ interface Props extends HTMLAttributes<"h1"> {
   tag: keyof typeof headingOptions;
   size: keyof typeof headingOptions;
   icon?: string;
+  iconSize?: number;
 }
 
-const { tag, size, icon, ...rest } = Astro.props;
+const { tag, size, icon, iconSize = 24, ...rest } = Astro.props;
 
 const Tag = headingOptions[tag];
 ---
@@ -27,6 +28,15 @@ const Tag = headingOptions[tag];
   ]}
   {...rest}
 >
-  {icon && <span class="material-symbols-outlined header-icon">{icon}</span>}
+  {
+    icon && (
+      <span
+        class="material-symbols-outlined header-icon"
+        style={`font-size: ${iconSize}px;`}
+      >
+        {icon}
+      </span>
+    )
+  }
   <slot />
 </Tag>

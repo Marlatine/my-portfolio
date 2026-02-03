@@ -22,4 +22,10 @@ const { limit } = Astro.props;
       .map((project) => <ProjectCard key={project.id} project={project} />)
   }
 </div>
-{limit && <Link href="/projects">View all projects</Link>}
+{
+  limit && (
+    <Link href="/projects" icon="arrow_forward" iconPosition="right">
+      View all projects
+    </Link>
+  )
+}
