@@ -1,0 +1,122 @@
+---
+import Button from "./ui/Button.astro";
+import Heading from "./ui/Heading.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  links?: [{ label: string; href: string; variant: "primary" | "secondary" }];
+}
+
+const defaultContent = {
+  title: "👋 Hello, I'm Martine Evensen",
+  description:
+    "I'm a frontend developer with a two-year degree from Gokstad Akademiet. I'm currently working at Gokstad Akademiet, with a long-term goal of growing into a fullstack developer. I enjoy creating clean, intuitive user interfaces and care deeply about UI and UX.",
+  links: [
+    {
+      label: "Download CV",
+      href: "/cv.pdf",
+      variant: "primary",
+    },
+    {
+      label: "Projects",
+      href: "/projects",
+      variant: "secondary",
+    },
+  ],
+};
+
+const {
+  title = defaultContent.title,
+  description = defaultContent.description,
+  links = defaultContent.links,
+} = Astro.props;
+---
+
+<section
+  aria-label="About me section"
+  id="about"
+  class="flex flex-col items-center justify-center pt-42"
+>
+  <div
+    class="grid grid-cols-1 items-center justify-center md:grid-cols-[auto_1fr] gap-12"
+  >
+    <img
+      src="/avatar.png"
+      alt="Martine Evensen"
+      class="avatar md:w-64 md:h-64 w-48 h-48 rounded-full mx-auto md:mx-0"
+    />
+    <div
+      class="about-me-content flex flex-col justify-center items-center md:items-start"
+    >
+      <Heading tag="h1" size="h1">{title}</Heading>
+      <p
+        class="text-sm md:text-base lg:text-lg text-base-content/70 text-balance p-4 max-w-[45ch] xl:max-w-[62ch] md:text-left"
+      >
+        {description}
+      </p>
+      <div class="flex gap-2 md:gap-6 w-full p-4">
+        {
+          links.map((link) => (
+            <Button
+              variant={link.variant as "primary" | "secondary"}
+              size="medium"
+              class="w-full"
+            >
+              <a
+                href={link.href}
+                target={link.label === "Download CV" ? "_blank" : "_self"}
+              >
+                {link.label}
+              </a>
+            </Button>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .avatar {
+    animation: avatar-entrance 0.8s ease-out 0.2s forwards;
+    opacity: 0;
+    transform: scale(0.9);
+    box-shadow: 0 0 20px rgba(140, 185, 255, 0.2);
+    border: 2px solid rgba(140, 185, 255, 0.3);
+  }
+
+  @keyframes avatar-entrance {
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .about-me-content {
+    animation: content-slide-in 0.8s ease-out 0.4s forwards;
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  @keyframes content-slide-in {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .avatar,
+    .about-me-content {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  :global([data-theme="dark"]) .avatar {
+    border-color: rgba(161, 140, 255, 0.4);
+    box-shadow: 0 0 25px rgba(161, 140, 255, 0.25);
+  }
+</style>
