@@ -1,4 +1,6 @@
 ---
+import ClientRouter from "astro/components/ClientRouter.astro";
+
 type Props = {
   title: string;
   description: string;
@@ -13,13 +15,21 @@ const { title, description } = Astro.props;
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <script is:inline>
     (function () {
-      const stored = localStorage.getItem("theme");
-      const preferred =
-        stored ||
-        (window.matchMedia("(prefers-color-scheme: dark)").matches
-          ? "dark"
-          : "light");
-      document.documentElement.setAttribute("data-theme", preferred);
+      function applyTheme() {
+        const stored = localStorage.getItem("theme");
+        const preferred =
+          stored ||
+          (window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light");
+        document.documentElement.setAttribute("data-theme", preferred);
+      }
+
+      // Apply theme immediately
+      applyTheme();
+
+      // Re-apply theme after View Transitions swap
+      document.addEventListener("astro:after-swap", applyTheme);
     })();
   </script>
   <meta name="generator" content={Astro.generator} />
@@ -32,17 +42,9 @@ const { title, description } = Astro.props;
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
     rel="stylesheet"
   />
-  <!-- <link
-    href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300&family=Inter:wght@400;500;600&display=swap"
-    rel="stylesheet"
-  /> -->
-
-  <!-- <link
-    href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Quicksand:wght@300..700&display=swap"
-    rel="stylesheet"
-  /> -->
   <link
     href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Quicksand:wght@300..700&display=swap"
     rel="stylesheet"
   />
+  <ClientRouter />
 </head>

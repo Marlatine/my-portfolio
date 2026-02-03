@@ -61,15 +61,11 @@ const {
             <Button
               variant={link.variant as "primary" | "secondary"}
               size="medium"
+              href={link.href}
+              target={link.label === "Download CV" ? "_blank" : "_self"}
               class="w-full"
             >
-              <a
-                href={link.href}
-                target={link.label === "Download CV" ? "_blank" : "_self"}
-                class="w-full h-full flex items-center justify-center"
-              >
-                {link.label}
-              </a>
+              {link.label}
             </Button>
           ))
         }

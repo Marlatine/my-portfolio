@@ -1,8 +1,5 @@
 ---
-import type { CollectionEntry } from "astro:content";
 import Button from "./ui/Button.astro";
-import GlowCard from "./ui/GlowCard.astro";
-import Link from "./ui/Link.astro";
 
 const { project } = Astro.props;
 
@@ -23,8 +20,8 @@ const { image, title, description, href } = project.data;
       {description}
     </p>
     <div class="mt-auto w-full">
-      <Button variant="primary" class="w-full">
-        <Link href={href} target="_blank">View project</Link>
+      <Button variant="primary" href={href} target="_blank" class="w-full">
+        View project
       </Button>
     </div>
   </div>

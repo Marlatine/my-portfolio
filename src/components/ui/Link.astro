@@ -21,9 +21,10 @@ const {
 <a
   href={href}
   class:list={[
-    "link-underline text-base-content hover:text-secondary transition-all duration-300 cursor-pointer text-lg flex items-center",
+    "text-base-content cursor-pointer text-lg flex items-center justify-center link-underline transition-all duration-300 hover:text-secondary",
     iconPosition === "left" && "gap-2",
     iconPosition === "right" && "flex-row-reverse gap-0",
+    className,
   ]}
   {...rest}
 >
