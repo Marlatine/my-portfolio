@@ -1,0 +1,31 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Button from "./ui/Button.astro";
+import GlowCard from "./ui/GlowCard.astro";
+import Link from "./ui/Link.astro";
+
+const { project } = Astro.props;
+
+const { image, title, description, href } = project.data;
+---
+
+<div
+  class="flex flex-col h-86 w-80 md:w-88 md:h-92 lg:w-92 lg:h-96 rounded-xl overflow-hidden bg-base-300"
+>
+  <div class="h-1/2 overflow-hidden">
+    <img src={image.src} alt={title} class="w-full h-full object-cover" />
+  </div>
+  <div class="flex-1 p-4 flex flex-col gap-2 bg-gradient-glow-top">
+    <h2 class="text-xl text-base-content font-bold">{title}</h2>
+    <p
+      class="text-base md:text-lg lg:text-xl text-base-content/70 line-clamp-2"
+    >
+      {description}
+    </p>
+    <div class="mt-auto w-full">
+      <Button variant="primary" class="w-full">
+        <Link href={href} target="_blank">View project</Link>
+      </Button>
+    </div>
+  </div>
+</div>
