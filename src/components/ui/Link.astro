@@ -1,0 +1,37 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"a"> {
+  href: string;
+}
+
+const { href, class: className, ...rest } = Astro.props;
+---
+
+<a
+  href={href}
+  class="link-underline text-base-content hover:text-secondary transition-all duration-300"
+  {...rest}
+>
+  <slot />
+</a>
+
+<style>
+  .link-underline {
+    position: relative;
+  }
+  .link-underline::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -4px;
+    width: 0;
+    height: 2px;
+    background-color: currentColor;
+    transform: translateX(-50%);
+    transition: width 0.3s ease;
+  }
+  .link-underline:hover::after {
+    width: calc(100% + 8px); /* 8px wider than text */
+  }
+</style>
