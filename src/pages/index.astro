@@ -1,11 +1,22 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Hero from "@/components/Hero.astro";
+import Layout from "../layouts/Layout.astro";
+import ProjectsSection from "@/components/Projects.astro";
+import Heading from "@/components/ui/Heading.astro";
+import Experience from "@/components/Experience.astro";
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="My Portfolio" description="My Portfolio">
+  <Hero />
+  <section
+    class="flex flex-col items-center justify-center w-full h-full gap-8 pt-34 px-4 lg:flex-row md:items-start md:justify-start md:px-12"
+  >
+    <Experience />
+  </section>
+  <section
+    class="flex flex-col items-center justify-center w-full h-full gap-8 py-34"
+  >
+    <Heading tag="h2" size="h2" icon="school">My School Projects</Heading>
+    <ProjectsSection limit={3} />
+  </section>
 </Layout>

@@ -1,0 +1,30 @@
+- title: Your Own Pokedex
+  id: 1
+  image: "@/assets/project-thumbnails/pokedex.png"
+  description: A pokemon website.
+  href: https://react-exam-pokemon.netlify.app/
+- title: Sandefjord Hotdog Shops
+  id: 2
+  image: "@/assets/project-thumbnails/hotdogs.png"
+  description: A website for Sandefjord's hotdog shops.
+  href: "https://celadon-selkie-b7ba48.netlify.app/"
+- title: The Animal Alliance
+  id: 3
+  image: "@/assets/project-thumbnails/animalAlliance.png"
+  description: A website for The Animal Alliance.
+  href: "https://unruffled-hypatia-1df976.netlify.app/"
+- title: Soulmate Dating Website
+  id: 4
+  image: "@/assets/project-thumbnails/soulmate.png"
+  description: A dating website.
+  href: "https://soulmate-dating-app.netlify.app/"
+- title: Blackjack Game
+  id: 5
+  image: "@/assets/project-thumbnails/blackjack.png"
+  description: A blackjack game.
+  href: "https://soulmate-dating-app.netlify.app/"
+- title: Sandefjord Aquarium
+  id: 6
+  image: "@/assets/project-thumbnails/aquarium.png"
+  description: A website for Sandefjord Aquarium.
+  href: "https://sandefjord-aquarium-project.netlify.app/"

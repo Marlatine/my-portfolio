@@ -1,0 +1,19 @@
+---
+import Hero from "@/components/Hero.astro";
+import Layout from "../layouts/Layout.astro";
+import Button from "@/components/ui/Button.astro";
+---
+
+<Layout title="My Portfolio" description="My Portfolio">
+  <Hero
+    title="🫥 Are you lost?"
+    description="Oops! The page you're looking for seems to have wandered off. Please go back to the home page."
+    links={[
+      {
+        label: "Back to home",
+        href: "/",
+        variant: "primary",
+      },
+    ]}
+  />
+</Layout>

@@ -1,0 +1,14 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import ProjectCard from "@/components/ProjectCard.astro";
+import { getCollection } from "astro:content";
+import ProjectsWrapper from "@/components/Projects.astro";
+import Heading from "@/components/ui/Heading.astro";
+---
+
+<Layout title="Projects" description="My projects and work">
+  <div class="flex flex-col w-full h-full gap-8 py-42">
+    <Heading tag="h2" size="h2" icon="school"> My School Projects </Heading>
+    <ProjectsWrapper />
+  </div>
+</Layout>
