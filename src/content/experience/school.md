@@ -4,6 +4,7 @@ type: education
 institution: Gokstad Akademiet
 program: Frontend Development
 level: Vocational Education
+location: Sandefjord, Norway
 start: 2021-08-01
 end: 2023-06-01
 duration: 2 years

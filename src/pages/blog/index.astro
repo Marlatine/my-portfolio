@@ -1,0 +1,30 @@
+---
+import BlogCard from "@/components/BlogCard.astro";
+import Heading from "@/components/ui/Heading.astro";
+import Layout from "@/layouts/Layout.astro";
+import type { GetStaticPaths } from "astro";
+import { getCollection } from "astro:content";
+
+const posts = await getCollection("blog", ({ data }) => !data.isDraft);
+
+console.log(posts);
+
+const sortedPosts = posts.sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
+);
+---
+
+<Layout title="Blog | Martine Evensen" description="My blog posts">
+  <div
+    class="py-34 flex flex-col gap-12 items-center justify-center w-full px-8"
+  >
+    <Heading tag="h1" size="h1" icon="article" iconSize={36}>
+      My blog posts
+    </Heading>
+    <section
+      class="h-full w-full grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-6 justify-center"
+    >
+      {sortedPosts.map((post) => <BlogCard post={post} />)}
+    </section>
+  </div>
+</Layout>

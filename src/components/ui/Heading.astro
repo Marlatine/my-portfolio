@@ -1,10 +1,10 @@
 ---
 const headingOptions = {
-  h1: "text-2xl md:text-3xl lg:text-4xl xl:text-5xl text-gradient-header flex items-center justify-center gap-2",
-  h2: "text-xl md:text-2xl lg:text-3xl xl:text-4xl text-gradient-header flex items-center justify-center gap-2",
-  h3: "text-lg md:text-xl lg:text-2xl xl:text-3xl text-gradient-header flex items-center justify-center gap-2",
-  h4: "text-base md:text-lg lg:text-xl xl:text-2xl text-gradient-header flex items-center justify-center gap-2",
-  h5: "text-sm md:text-base lg:text-lg xl:text-xl text-gradient-header flex items-center justify-center gap-2",
+  h1: "text-2xl md:text-3xl lg:text-4xl xl:text-5xl",
+  h2: "text-xl md:text-2xl lg:text-3xl xl:text-4xl",
+  h3: "text-lg md:text-xl lg:text-2xl xl:text-3xl",
+  h4: "text-base md:text-lg lg:text-xl xl:text-2xl",
+  h5: "text-sm md:text-base lg:text-lg xl:text-xl",
 };
 
 import type { HTMLAttributes } from "astro/types";
@@ -23,7 +23,7 @@ const Tag = headingOptions[tag];
 
 <Tag
   class:list={[
-    "text-gradient-header flex items-center justify-center gap-2",
+    "text-gradient-header flex items-center gap-2",
     headingOptions[size],
   ]}
   {...rest}

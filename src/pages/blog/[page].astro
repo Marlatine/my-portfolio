@@ -1,0 +1,46 @@
+---
+import Heading from "@/components/ui/Heading.astro";
+import Layout from "@/layouts/Layout.astro";
+import type { GetStaticPaths } from "astro";
+import { getCollection, getEntry, render } from "astro:content";
+import { formatDate } from "@/lib/date/formatDate";
+import Breadcrumbs from "@/components/ui/Breadcrumbs.astro";
+
+export const getStaticPaths = (async () => {
+  const posts = await getCollection("blog", ({ data }) => !data.isDraft);
+
+  return posts.map((post) => ({
+    params: {
+      page: post.data.slug,
+    },
+    props: {
+      post: post,
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+const { post } = Astro.props;
+
+const { Content } = await render(post);
+
+const { title, description, image, pubDate } = post.data;
+---
+
+<Layout title={title} description={description}>
+  <section aria-label="Blog metadata" class="pt-34 flex flex-col gap-6">
+    <Breadcrumbs currentPage={Astro.url.pathname.split("/").pop() || ""} />
+    <Heading tag="h1" size="h1" icon="article" iconSize={32} class="text-left"
+      >{title}</Heading
+    >
+    <div class="flex justify-between">
+      <p class="max-w-1/2">{description}</p>
+      <p class="text-sm text-base-content/70 text-right self-end">
+        Published on {formatDate(pubDate)}
+      </p>
+    </div>
+    <img src={image?.src} alt={title} height={225} />
+  </section>
+  <section aria-label="Blog content" class="flex flex-col gap-6 py-18 text-lg">
+    <Content />
+  </section>
+</Layout>

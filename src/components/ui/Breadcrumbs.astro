@@ -1,0 +1,15 @@
+---
+import Link from "./Link.astro";
+
+type Props = {
+  currentPage: string;
+};
+
+const { currentPage } = Astro.props;
+---
+
+<ul class="flex flex-row gap-2 text-md text-base-content/70">
+  <a href="/">Home /</a>
+  <a href="/blog">My blog posts / </a>
+  <span>{currentPage}</span>
+</ul>

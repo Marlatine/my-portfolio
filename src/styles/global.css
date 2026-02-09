@@ -23,15 +23,15 @@ html {
   --glow-color: var(--color-secondary);
   
   /* Default to dark theme to prevent flash during View Transitions */
-  --color-base-100: #0a0612;
-  --color-base-200: #0d0918;
-  --color-base-300: #1a1028;
+  --color-base-100: #12101a;
+  --color-base-200: #181522;
+  --color-base-300: #251a38;
   --color-base-content: #f2eff6;
   --color-primary: #2a1a4a;
   --color-secondary: #6b4d9e;
   --color-accent: #9d7dea;
   --color-muted: #8a82a0;
-  --nav-background: linear-gradient(to right, #0f0a19 0%, #1f1432 25%, #1f1432 60%, #0f0a19 100%);
+  --nav-background: linear-gradient(to right, #161320 0%, #241a38 25%, #241a38 60%, #161320 100%);
   --gradient-header: linear-gradient(to right, #c5c5c9 0%, #c1c1c8 30%, #c7c7ce 40%, #d2d2da 50%, #c1c1c9 70%, #94949c 100%);
   --gradient-glow-top: radial-gradient(ellipse 100% 50% at 50% 0%, rgba(100, 70, 160, 0.122) 0%, rgba(117, 85, 183, 0.12) 20%, rgba(100, 70, 160, 0.12) 40%, rgba(60, 40, 100, 0.06) 60%, transparent 80%);
   --gradient-bottom: rgba(5, 3, 10, 0.95);
@@ -97,9 +97,9 @@ span.material-symbols-outlined.header-icon {
 }
 
 [data-theme="dark"] {
-  --color-base-100: #0a0612;
-  --color-base-200: #0d0918;
-  --color-base-300: #1a1028;
+  --color-base-100: #12101a;
+  --color-base-200: #181522;
+  --color-base-300: #251a38;
   --color-base-content: #f2eff6;
 
   --color-primary: #2a1a4a;
@@ -109,10 +109,10 @@ span.material-symbols-outlined.header-icon {
 
   --nav-background: linear-gradient(
     to right,
-    #0f0a19 0%,
-    #1f1432 25%,
-    #1f1432 60%,
-    #0f0a19 100%
+    #161320 0%,
+    #241a38 25%,
+    #241a38 60%,
+    #161320 100%
   );
 
 

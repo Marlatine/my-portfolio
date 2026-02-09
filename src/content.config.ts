@@ -35,6 +35,7 @@ const experience = defineCollection({
         z.object({
             id: z.number(),
             type: z.literal('education'),
+            location: z.string(),
             institution: z.string(),
             program: z.string(),
             level: z.string(),
@@ -45,8 +46,21 @@ const experience = defineCollection({
     ]),
 })
 
+const blog = defineCollection({
+    loader: glob({ pattern: 'src/content/blog/*.md' }),
+    schema: ({ image }) => z.object({
+        title: z.string(),
+        slug: z.string(),
+        description: z.string(),
+        image: image().optional(),
+        pubDate: z.date(),
+        isDraft: z.boolean(),
+    }),
+})
+
 
 export const collections = {
     projects,
     experience,
+    blog,
 }
