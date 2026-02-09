@@ -36,26 +36,46 @@ const {
 <section
   aria-label="About me section"
   id="about"
-  class="flex flex-col items-center justify-center pt-42"
+  class="flex flex-col items-center justify-center relative overflow-visible h-screen"
 >
+  <div class="hero-nebula" aria-hidden="true"></div>
+
+  <div class="hero-particles" aria-hidden="true">
+    <div class="particle particle-1"></div>
+    <div class="particle particle-2"></div>
+    <div class="particle particle-3"></div>
+    <div class="particle particle-4"></div>
+    <div class="particle particle-5"></div>
+    <div class="particle particle-6"></div>
+  </div>
+
+  <div class="shooting-star" aria-hidden="true"></div>
+
   <div
-    class="grid grid-cols-1 items-center justify-center md:grid-cols-[auto_1fr] gap-12"
+    class="grid grid-cols-1 items-center justify-center md:grid-cols-[auto_1fr] gap-12 relative z-10"
   >
-    <img
-      src="/avatar.png"
-      alt="Martine Evensen"
-      class="avatar md:w-64 md:h-64 w-48 h-48 rounded-full mx-auto md:mx-0"
-    />
+    <div class="avatar-container mx-auto md:mx-0">
+      <div class="orbit orbit-1" aria-hidden="true"></div>
+      <div class="orbit orbit-2" aria-hidden="true"></div>
+      <img
+        src="/avatar.png"
+        alt="Martine Evensen"
+        class="avatar md:w-64 md:h-64 w-48 h-48 rounded-full"
+      />
+    </div>
+
     <div
       class="about-me-content flex flex-col justify-center items-center md:items-start"
     >
-      <Heading tag="h1" size="h1">{title}</Heading>
+      <div class="hero-title">
+        <Heading tag="h1" size="h1">{title}</Heading>
+      </div>
       <p
-        class="text-sm md:text-base lg:text-lg text-base-content/70 text-balance p-4 max-w-[45ch] xl:max-w-[62ch] md:text-left"
+        class="hero-description text-sm md:text-base lg:text-lg text-base-content/70 text-balance p-4 md:text-left"
       >
         {description}
       </p>
-      <div class="flex gap-2 md:gap-6 w-full p-4">
+      <div class="hero-links flex gap-2 md:gap-6 w-full p-4">
         {
           links.map((link) => (
             <Button
@@ -72,48 +92,445 @@ const {
       </div>
     </div>
   </div>
+  <div class="scroll-hint absolute bottom-8 left-0 right-0 flex justify-center">
+    <span
+      class="material-symbols-outlined text-base-content/50 cursor-pointer"
+      style="font-size: 64px;"
+    >
+      keyboard_arrow_down
+    </span>
+  </div>
 </section>
 
 <style>
-  .avatar {
-    animation: avatar-entrance 0.8s ease-out 0.2s forwards;
-    opacity: 0;
-    transform: scale(0.9);
-    box-shadow: 0 0 20px rgba(140, 185, 255, 0.2);
-    border: 2px solid rgba(140, 185, 255, 0.3);
+  /* ===== Nebula background glow ===== */
+  .hero-nebula {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 700px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgba(107, 77, 158, 0.14) 0%,
+      rgba(157, 125, 234, 0.07) 40%,
+      transparent 70%
+    );
+    filter: blur(80px);
+    transform: translate(-50%, -50%);
+    animation: nebula-breathe 10s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
   }
 
-  @keyframes avatar-entrance {
-    to {
-      opacity: 1;
-      transform: scale(1);
+  @keyframes nebula-breathe {
+    0%,
+    100% {
+      opacity: 0.5;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+      opacity: 0.9;
+      transform: translate(-50%, -50%) scale(1.08);
     }
   }
 
-  .about-me-content {
-    animation: content-slide-in 0.8s ease-out 0.4s forwards;
-    opacity: 0;
-    transform: translateY(-20px);
+  .hero-particles {
+    position: absolute;
+    inset: -60px;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
   }
 
-  @keyframes content-slide-in {
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0;
+  }
+
+  .particle-1 {
+    width: 3px;
+    height: 3px;
+    background: rgba(157, 125, 234, 0.9);
+    box-shadow: 0 0 6px rgba(157, 125, 234, 0.6);
+    top: 25%;
+    left: 8%;
+    animation: drift-up 14s ease-in-out infinite;
+  }
+
+  .particle-2 {
+    width: 2px;
+    height: 2px;
+    background: rgba(200, 180, 255, 0.8);
+    box-shadow: 0 0 4px rgba(200, 180, 255, 0.5);
+    top: 65%;
+    left: 85%;
+    animation: drift-up 18s ease-in-out 3s infinite;
+  }
+
+  .particle-3 {
+    width: 4px;
+    height: 4px;
+    background: rgba(140, 185, 255, 0.7);
+    box-shadow: 0 0 10px rgba(140, 185, 255, 0.4);
+    top: 45%;
+    left: 92%;
+    animation: drift-up 12s ease-in-out 1s infinite;
+  }
+
+  .particle-4 {
+    width: 2px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.3);
+    top: 75%;
+    left: 15%;
+    animation: drift-up 20s ease-in-out 5s infinite;
+  }
+
+  .particle-5 {
+    width: 3px;
+    height: 3px;
+    background: rgba(161, 140, 255, 0.7);
+    box-shadow: 0 0 8px rgba(161, 140, 255, 0.4);
+    top: 15%;
+    left: 65%;
+    animation: drift-up 16s ease-in-out 2s infinite;
+  }
+
+  .particle-6 {
+    width: 2px;
+    height: 2px;
+    background: rgba(180, 160, 220, 0.6);
+    box-shadow: 0 0 5px rgba(180, 160, 220, 0.3);
+    top: 55%;
+    left: 40%;
+    animation: drift-up 22s ease-in-out 7s infinite;
+  }
+
+  @keyframes drift-up {
+    0% {
+      opacity: 0;
+      transform: translateY(0) translateX(0);
+    }
+    8% {
+      opacity: 0.9;
+    }
+    50% {
+      transform: translateY(-60px) translateX(15px);
+    }
+    92% {
+      opacity: 0.9;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-140px) translateX(-10px);
+    }
+  }
+
+  .shooting-star {
+    position: absolute;
+    top: 15%;
+    left: -5%;
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(200, 180, 255, 0.8),
+      rgba(255, 255, 255, 0.9)
+    );
+    border-radius: 1px;
+    transform: rotate(-25deg);
+    opacity: 0;
+    animation: shoot 8s ease-in-out 4s infinite;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .shooting-star::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: -1px;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: white;
+    box-shadow:
+      0 0 6px rgba(255, 255, 255, 0.9),
+      0 0 12px rgba(200, 180, 255, 0.6);
+  }
+
+  @keyframes shoot {
+    0%,
+    100% {
+      opacity: 0;
+      transform: rotate(-25deg) translateX(0);
+    }
+    2% {
+      opacity: 0.9;
+    }
+    8% {
+      opacity: 0;
+      transform: rotate(-25deg) translateX(500px);
+    }
+    9% {
+      transform: rotate(-25deg) translateX(0);
+    }
+  }
+
+  .avatar-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    animation: container-entrance 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.2s
+      forwards;
+  }
+
+  @keyframes container-entrance {
+    0% {
+      opacity: 0;
+      transform: scale(0.8) rotate(-3deg);
+      filter: blur(6px);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+      filter: blur(0);
+    }
+  }
+
+  .orbit {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid transparent;
+    pointer-events: none;
+  }
+
+  .orbit-1 {
+    width: calc(100% + 40px);
+    height: calc(100% + 40px);
+    border-color: rgba(157, 125, 234, 0.15);
+    animation: orbit-spin 22s linear infinite;
+  }
+
+  .orbit-1::before {
+    content: "";
+    position: absolute;
+    top: -3px;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(157, 125, 234, 0.85);
+    box-shadow:
+      0 0 10px rgba(157, 125, 234, 0.6),
+      0 0 20px rgba(157, 125, 234, 0.3);
+    transform: translateX(-50%);
+  }
+
+  .orbit-2 {
+    width: calc(100% + 72px);
+    height: calc(100% + 72px);
+    border-color: rgba(140, 185, 255, 0.1);
+    animation: orbit-spin-reverse 32s linear infinite;
+  }
+
+  .orbit-2::before {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(140, 185, 255, 0.75);
+    box-shadow:
+      0 0 8px rgba(140, 185, 255, 0.5),
+      0 0 18px rgba(140, 185, 255, 0.2);
+    transform: translateX(-50%);
+  }
+
+  @keyframes orbit-spin {
+    from {
+      transform: rotate(0deg);
+    }
     to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes orbit-spin-reverse {
+    from {
+      transform: rotate(360deg);
+    }
+    to {
+      transform: rotate(0deg);
+    }
+  }
+
+  .avatar {
+    box-shadow:
+      0 0 20px rgba(140, 185, 255, 0.2),
+      0 0 60px rgba(157, 125, 234, 0.08);
+    border: 2px solid rgba(140, 185, 255, 0.3);
+    position: relative;
+    z-index: 2;
+    animation: avatar-float 6s ease-in-out 1.2s infinite;
+  }
+
+  @keyframes avatar-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  .hero-title {
+    opacity: 0;
+    transform: translateY(18px);
+    animation: content-reveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+  }
+
+  .hero-description {
+    opacity: 0;
+    transform: translateY(18px);
+    animation: content-reveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
+  }
+
+  .hero-links {
+    opacity: 0;
+    transform: translateY(18px);
+    animation: content-reveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards;
+  }
+
+  @keyframes content-reveal {
+    0% {
+      opacity: 0;
+      transform: translateY(18px);
+      filter: blur(4px);
+    }
+    100% {
       opacity: 1;
       transform: translateY(0);
+      filter: blur(0);
+    }
+  }
+
+  .scroll-hint {
+    opacity: 0;
+    animation: content-reveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1.2s forwards;
+  }
+
+  .scroll-hint .material-symbols-outlined {
+    animation: bounce-down 2s ease-in-out infinite;
+  }
+
+  @keyframes bounce-down {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(10px);
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .avatar,
-    .about-me-content {
-      animation: none;
+    .avatar-container,
+    .hero-title,
+    .hero-description,
+    .hero-links,
+    .hero-nebula,
+    .particle,
+    .shooting-star,
+    .orbit-1,
+    .orbit-2,
+    .scroll-hint,
+    .scroll-hint .material-symbols-outlined {
+      animation: none !important;
       opacity: 1;
       transform: none;
+      filter: none;
     }
   }
 
   :global([data-theme="dark"]) .avatar {
     border-color: rgba(161, 140, 255, 0.4);
-    box-shadow: 0 0 25px rgba(161, 140, 255, 0.25);
+    box-shadow:
+      0 0 25px rgba(161, 140, 255, 0.25),
+      0 0 80px rgba(161, 140, 255, 0.06);
+  }
+
+  :global([data-theme="dark"]) .orbit-1 {
+    border-color: rgba(161, 140, 255, 0.2);
+  }
+
+  :global([data-theme="dark"]) .orbit-1::before {
+    background: rgba(161, 140, 255, 0.9);
+    box-shadow:
+      0 0 12px rgba(161, 140, 255, 0.7),
+      0 0 24px rgba(161, 140, 255, 0.3);
+  }
+
+  :global([data-theme="dark"]) .hero-nebula {
+    background: radial-gradient(
+      circle,
+      rgba(161, 140, 255, 0.12) 0%,
+      rgba(107, 77, 158, 0.06) 40%,
+      transparent 70%
+    );
+  }
+
+  :global([data-theme="light"]) .hero-nebula {
+    background: radial-gradient(
+      circle,
+      rgba(139, 92, 246, 0.1) 0%,
+      rgba(123, 104, 184, 0.05) 40%,
+      transparent 70%
+    );
+  }
+
+  :global([data-theme="light"]) .orbit-1 {
+    border-color: rgba(139, 92, 246, 0.15);
+  }
+
+  :global([data-theme="light"]) .orbit-1::before {
+    background: rgba(139, 92, 246, 0.7);
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+  }
+
+  :global([data-theme="light"]) .orbit-2 {
+    border-color: rgba(123, 104, 184, 0.1);
+  }
+
+  :global([data-theme="light"]) .orbit-2::before {
+    background: rgba(123, 104, 184, 0.6);
+    box-shadow: 0 0 8px rgba(123, 104, 184, 0.4);
+  }
+
+  :global([data-theme="light"]) .shooting-star {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(139, 92, 246, 0.6),
+      rgba(123, 104, 184, 0.8)
+    );
+  }
+
+  :global([data-theme="light"]) .shooting-star::after {
+    background: rgba(139, 92, 246, 0.9);
+    box-shadow:
+      0 0 6px rgba(139, 92, 246, 0.8),
+      0 0 12px rgba(123, 104, 184, 0.5);
   }
 </style>

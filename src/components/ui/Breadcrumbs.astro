@@ -8,7 +8,9 @@ type Props = {
 const { currentPage } = Astro.props;
 ---
 
-<ul class="flex flex-row gap-2 text-md text-base-content/70">
+<ul
+  class="flex flex-row flex-wrap gap-2 text-sm text-base-content/70 md:text-md"
+>
   <a href="/">Home /</a>
   <a href="/blog">My blog posts / </a>
   <span>{currentPage}</span>

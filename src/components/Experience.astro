@@ -32,15 +32,20 @@ const getLatestStart = (exp: WorkExperience) => {
 
 <>
   <section aria-labelledby="Work experience" class="w-full">
-    <Heading tag="h3" size="h3" icon="work" iconSize={32}
-      >Work Experience</Heading
-    >
+    <div class="reveal-heading">
+      <Heading tag="h3" size="h3" icon="work" iconSize={32}
+        >Work Experience</Heading
+      >
+    </div>
     <div class="mt-6 space-y-4">
       {
         workExperience
           .sort((a, b) => getLatestStart(b) - getLatestStart(a))
-          .map((exp) => (
-            <article class="group relative rounded-xl border border-(--color-base-200) bg-(--color-base-200) p-6 transition-all hover:border-(--color-secondary) hover:bg-(--color-base-300)">
+          .map((exp, i) => (
+            <article
+              class="reveal-card group relative rounded-xl border border-(--color-base-200) bg-(--color-base-200) p-6 transition-all hover:border-(--color-secondary) hover:bg-(--color-base-300)"
+              style={`--reveal-delay: ${i * 120}ms`}
+            >
               <div class="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
                 <div>
                   <h4 class="text-lg font-semibold text-(--color-base-content)">
@@ -92,15 +97,20 @@ const getLatestStart = (exp: WorkExperience) => {
   </section>
 
   <section aria-labelledby="Education" class="w-full">
-    <Heading tag="h3" size="h3" icon="school" iconSize={32}>
-      Education
-    </Heading>
+    <div class="reveal-heading">
+      <Heading tag="h3" size="h3" icon="school" iconSize={32}>
+        Education
+      </Heading>
+    </div>
     <div class="mt-6 space-y-4">
       {
         educationExperience
           .sort((a, b) => b.data.start.getTime() - a.data.start.getTime())
-          .map((exp) => (
-            <article class="group relative rounded-xl border border-(--color-base-200) bg-(--color-base-200) p-6 transition-all hover:border-(--color-secondary) hover:bg-(--color-base-300)">
+          .map((exp, i) => (
+            <article
+              class="reveal-card group relative rounded-xl border border-(--color-base-200) bg-(--color-base-200) p-6 transition-all hover:border-(--color-secondary) hover:bg-(--color-base-300)"
+              style={`--reveal-delay: ${i * 120}ms`}
+            >
               <div class="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
                 <div>
                   <h4 class="text-lg font-semibold text-(--color-base-content)">
@@ -136,3 +146,89 @@ const getLatestStart = (exp: WorkExperience) => {
     </div>
   </section>
 </>
+
+<style>
+  /* ===== Section heading reveal ===== */
+  .reveal-heading {
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(4px);
+    transition:
+      opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+      filter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal-heading.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+
+  /* ===== Card reveal ===== */
+  .reveal-card {
+    opacity: 0;
+    transform: translateY(24px);
+    filter: blur(4px);
+    transition:
+      opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+      filter 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.2s ease,
+      background-color 0.2s ease;
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  .reveal-card.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+
+  /* ===== Reduced motion ===== */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-heading,
+    .reveal-card {
+      opacity: 1;
+      transform: none;
+      filter: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  function initRevealObserver() {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    if (prefersReducedMotion) {
+      document
+        .querySelectorAll(".reveal-heading, .reveal-card")
+        .forEach((el) => el.classList.add("is-visible"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+    );
+
+    document
+      .querySelectorAll(".reveal-heading, .reveal-card")
+      .forEach((el) => observer.observe(el));
+  }
+
+  // Run on initial load
+  initRevealObserver();
+
+  // Re-run after View Transitions (Astro navigation)
+  document.addEventListener("astro:after-swap", initRevealObserver);
+</script>

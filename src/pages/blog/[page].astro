@@ -27,20 +27,21 @@ const { title, description, image, pubDate } = post.data;
 ---
 
 <Layout title={title} description={description}>
-  <section aria-label="Blog metadata" class="pt-34 flex flex-col gap-6">
+  <section aria-label="Blog metadata" class="pt-34 flex flex-col gap-6 px-8">
     <Breadcrumbs currentPage={Astro.url.pathname.split("/").pop() || ""} />
     <Heading tag="h1" size="h1" icon="article" iconSize={32} class="text-left"
       >{title}</Heading
     >
-    <div class="flex justify-between">
-      <p class="max-w-1/2">{description}</p>
-      <p class="text-sm text-base-content/70 text-right self-end">
-        Published on {formatDate(pubDate)}
-      </p>
-    </div>
+    <p class="max-w-[620px]">{description}</p>
+    <p class="text-sm text-base-content/70 text-right self-end">
+      Published on {formatDate(pubDate)}
+    </p>
     <img src={image?.src} alt={title} height={225} />
   </section>
-  <section aria-label="Blog content" class="flex flex-col gap-6 py-18 text-lg">
+  <section
+    aria-label="Blog content"
+    class="prose prose-invert prose-lg max-w-none py-18 px-8"
+  >
     <Content />
   </section>
 </Layout>
