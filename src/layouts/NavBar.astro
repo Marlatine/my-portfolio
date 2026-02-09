@@ -4,16 +4,86 @@ import Link from "@/components/ui/Link.astro";
 ---
 
 <nav
-  class="grid grid-cols-[1fr_auto] fixed top-0 p-6 left-2 right-2 bg-nav-background backdrop-blur-md z-50"
+  class="fixed top-0 left-2 right-2 z-50 bg-nav-background backdrop-blur-md p-4 md:p-6"
   aria-label="Navigation bar"
   transition:persist
 >
-  <ul class="flex justify-center items-center gap-8">
-    <Link href="/" icon="person_2">About me</Link>
-    <Link href="/projects" icon="code">Projects</Link>
-    <Link href="/blog" icon="library_books">Blog</Link>
-  </ul>
-  <div class="flex justify-end items-center">
-    <ThemeToggle />
+  <div
+    class="grid grid-cols-[auto_1fr_auto] items-center md:grid-cols-[1fr_auto]"
+  >
+    <button
+      id="hamburger-btn"
+      class="flex items-center justify-center md:hidden cursor-pointer"
+      aria-label="Toggle menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <span
+        id="hamburger-icon"
+        class="material-symbols-outlined text-base-content text-3xl transition-transform duration-300"
+      >
+        menu
+      </span>
+    </button>
+
+    <ul class="hidden md:flex justify-center items-center gap-8">
+      <Link href="/" icon="person_2">About me</Link>
+      <Link href="/projects" icon="code">Projects</Link>
+      <Link href="/blog" icon="library_books">Blog</Link>
+    </ul>
+
+    <!-- Theme toggle (always visible, pushed right) -->
+    <div class="flex justify-end items-center col-start-3 md:col-start-2">
+      <ThemeToggle />
+    </div>
+  </div>
+
+  <div
+    id="mobile-menu"
+    class="mobile-menu grid grid-rows-[0fr] md:hidden transition-[grid-template-rows] duration-300 ease-in-out"
+  >
+    <div class="overflow-hidden">
+      <ul class="flex flex-col items-start gap-6 pt-6 pb-4">
+        <Link href="/" icon="person_2">About me</Link>
+        <Link href="/projects" icon="code">Projects</Link>
+        <Link href="/blog" icon="library_books">Blog</Link>
+      </ul>
+    </div>
   </div>
 </nav>
+
+<script is:inline>
+  (function () {
+    const btn = document.getElementById("hamburger-btn");
+    const menu = document.getElementById("mobile-menu");
+    const icon = document.getElementById("hamburger-icon");
+
+    if (!btn || !menu || !icon) return;
+
+    btn.addEventListener("click", () => {
+      const isOpen = btn.getAttribute("aria-expanded") === "true";
+
+      btn.setAttribute("aria-expanded", String(!isOpen));
+      icon.textContent = isOpen ? "menu" : "close";
+      icon.style.transform = isOpen ? "" : "rotate(90deg)";
+
+      if (isOpen) {
+        menu.classList.remove("grid-rows-[1fr]");
+        menu.classList.add("grid-rows-[0fr]");
+      } else {
+        menu.classList.remove("grid-rows-[0fr]");
+        menu.classList.add("grid-rows-[1fr]");
+      }
+    });
+
+    menu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        btn.setAttribute("aria-expanded", "false");
+        icon.textContent = "menu";
+        icon.style.transform = "";
+        menu.classList.remove("grid-rows-[1fr]");
+        menu.classList.add("grid-rows-[0fr]");
+      });
+    });
+  })();
+</script>
