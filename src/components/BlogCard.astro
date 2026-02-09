@@ -1,9 +1,9 @@
 ---
+import Card from "./ui/Card.astro";
 import Heading from "@/components/ui/Heading.astro";
-import Link from "@/components/ui/Link.astro";
+import Button from "./ui/Button.astro";
 import { type CollectionEntry } from "astro:content";
 import { formatDate } from "@/lib/date/formatDate";
-import Button from "./ui/Button.astro";
 
 type Props = {
   post: CollectionEntry<"blog">;
@@ -14,24 +14,20 @@ const { post } = Astro.props;
 const { title, slug, description, image, pubDate } = post.data;
 ---
 
-<article
+<Card
+  tag="article"
+  imageSrc={image?.src}
+  imageAlt={title}
   aria-label={title}
-  class="bg-base-300 rounded-xl overflow-hidden flex flex-col w-full min-h-82 max-h-[460px]"
 >
-  <div class="h-48 overflow-hidden">
-    <img src={image?.src} alt={title} class="object-cover w-full h-full" />
+  <Heading tag="h3" size="h3">{title}</Heading>
+  <p class="text-sm text-base-content/70">
+    Published on {formatDate(pubDate)}
+  </p>
+  <p class="line-clamp-2">{description}</p>
+  <div class="mt-auto w-full">
+    <Button variant="primary" href={`/blog/${slug}`} class="w-full">
+      Read Post
+    </Button>
   </div>
-
-  <div class="flex flex-col flex-1 gap-2 p-4">
-    <Heading tag="h3" size="h3">{title}</Heading>
-    <p class="text-sm text-base-content/70">
-      Published on {formatDate(pubDate)}
-    </p>
-    <p class="line-clamp-2">{description}</p>
-    <div class="mt-auto w-full">
-      <Button variant="primary" href={`/blog/${slug}`} class="w-full"
-        >Read Post</Button
-      >
-    </div>
-  </div>
-</article>
+</Card>

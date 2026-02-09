@@ -23,7 +23,6 @@ body {
   --font-text: 'Quicksand', sans-serif;
   --glow-color: var(--color-secondary);
   
-  /* Default to dark theme to prevent flash during View Transitions */
   --color-base-100: #12101a;
   --color-base-200: #181522;
   --color-base-300: #251a38;
@@ -207,8 +206,4 @@ body::before {
   outline-offset: 2px;
   box-shadow: 0 0 10px rgba(157, 125, 234, 0.3);
 }
-
-
-
-
 

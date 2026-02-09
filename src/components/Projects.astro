@@ -1,5 +1,4 @@
 ---
-import Layout from "@/layouts/Layout.astro";
 import ProjectCard from "@/components/ProjectCard.astro";
 import { getCollection } from "astro:content";
 import Link from "./ui/Link.astro";
@@ -14,7 +13,7 @@ const { limit } = Astro.props;
 ---
 
 <div
-  class="h-full w-full grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-6 justify-center justify-items-center px-8"
+  class="h-full w-full grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(380px,1fr))] gap-6 justify-center justify-items-center px-8"
 >
   {
     projects

@@ -1,0 +1,40 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"div"> {
+  tag?: string;
+  imageSrc?: string;
+  imageAlt: string;
+  contentClass?: string;
+}
+
+const {
+  tag = "div",
+  imageSrc,
+  imageAlt,
+  contentClass,
+  class: className,
+  ...rest
+} = Astro.props;
+
+const Tag = tag;
+---
+
+<Tag
+  class:list={[
+    "bg-base-300 rounded-xl overflow-hidden flex flex-col w-full min-h-82 max-h-[460px]",
+    className,
+  ]}
+  {...rest}
+>
+  {
+    imageSrc && (
+      <div class="h-52 overflow-hidden">
+        <img src={imageSrc} alt={imageAlt} class="w-full h-full object-cover" />
+      </div>
+    )
+  }
+  <div class:list={["flex-1 p-4 flex flex-col gap-4", contentClass]}>
+    <slot />
+  </div>
+</Tag>
