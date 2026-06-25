@@ -9,6 +9,19 @@ type Props = {
 
 const projects = await getCollection("projects");
 
+const mandatoryAssignment = {
+  id: 1,
+  project: {
+    data: {
+      title: "Oblig 1",
+      description: "Mandatory assignments",
+      image: { src: "/src/assets/project-thumbnails/assignmentThumb.png" },
+      href: "/tasks/oblig1/",
+      assignment: true,
+    },
+  },
+};
+
 const { limit } = Astro.props;
 ---
 
@@ -20,11 +33,18 @@ const { limit } = Astro.props;
       .slice(0, limit)
       .map((project) => <ProjectCard key={project.id} project={project} />)
   }
+
+  <ProjectCard
+    key={mandatoryAssignment.id}
+    project={mandatoryAssignment.project}
+  />
+  <div>
+    {
+      limit && (
+        <Link href="/projects" icon="arrow_forward" iconPosition="right">
+          View all projects
+        </Link>
+      )
+    }
+  </div>
 </div>
-{
-  limit && (
-    <Link href="/projects" icon="arrow_forward" iconPosition="right">
-      View all projects
-    </Link>
-  )
-}
