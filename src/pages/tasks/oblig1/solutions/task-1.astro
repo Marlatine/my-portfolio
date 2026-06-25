@@ -1,0 +1,68 @@
+---
+import Button from "@/components/ui/Button.astro";
+import Layout from "@/layouts/Layout.astro";
+import { getCollection, render } from "astro:content";
+import Heading from "@/components/ui/Heading.astro";
+import TaskCard from "@/components/ui/taskCard.astro";
+
+const task1 = await getCollection("tasks", ({ data }) =>
+  data.title.includes("Task 1"),
+);
+
+const { Content } = await render(task1[0]);
+---
+
+<Layout
+  title="Task 1 solution | Martine Evensen"
+  description="Solution for task 1 in oblig 1"
+>
+  <div
+    class="py-34 flex flex-col gap-12 items-center justify-center w-full px-8"
+  >
+    <div class="content">
+      <Content />
+    </div>
+    <TaskCard
+      class:list={"w-full max-w-3xl bg-secondary/10 gap-4 flex flex-col"}
+    >
+      <p id="paragraph" class="h-24 sm:h-12">
+        This is a simple paragraph. Click the buttons below to change its text.
+        Once a button is clicked, it will be disabled.
+      </p>
+      <div class="flex gap-4 mt-4 items-center w-full">
+        <Button id="button1"> Change text to "Hei på deg" </Button>
+        <Button id="button2"> Change text to "Ha det bra" </Button>
+        <Button id="button3" class:list={"hidden!"}> Reset </Button>
+      </div>
+    </TaskCard>
+  </div>
+</Layout>
+
+<script>
+  const paragraph = document.getElementById(
+    "paragraph",
+  ) as HTMLParagraphElement;
+  const originalText = paragraph.textContent || "";
+  const button1 = document.getElementById("button1") as HTMLButtonElement;
+  const button2 = document.getElementById("button2") as HTMLButtonElement;
+  const button3 = document.getElementById("button3") as HTMLButtonElement;
+  button1.addEventListener("click", () => {
+    paragraph.textContent = "Hei på deg";
+    button1.disabled = true;
+    button2.disabled = false;
+  });
+
+  button2.addEventListener("click", () => {
+    paragraph.textContent = "Ha det bra";
+    button2.disabled = true;
+    button1.disabled = false;
+    button3.classList.remove("hidden!");
+  });
+
+  button3.addEventListener("click", () => {
+    paragraph.textContent = originalText;
+    button1.disabled = false;
+    button2.disabled = false;
+    button3.classList.add("hidden!");
+  });
+</script>

@@ -1,0 +1,90 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getCollection, render } from "astro:content";
+import Input from "@/components/ui/Input.astro";
+import TaskCard from "@/components/ui/taskCard.astro";
+
+const task7 = await getCollection("tasks", ({ data }) =>
+  data.title.includes("Task 7"),
+);
+
+const { Content } = await render(task7[0]);
+---
+
+<Layout
+  title="Task 7 solution | Martine Evensen"
+  description="Solution for task 7 in oblig 1"
+>
+  <div
+    class="py-34 grid grid-cols-1 items-center justify-center px-auto w-full px-16"
+  >
+    <div class="content">
+      <Content />
+    </div>
+
+    <TaskCard class:list={"bg-secondary/10 w-full"}>
+      <div class="grid grid-cols-2 items-start">
+        <div class="flex gap-4 col-span-1">
+          <Input
+            id="amount-input"
+            type="number"
+            placeholder="Write amount..."
+          />
+          <select
+            id="tip-select"
+            class="px-4 py-2 rounded-md border border-accent text-accent inline-flex items-center justify-center"
+          >
+            <option value="">Select a tip amount</option>
+            <option value="10%">10%</option>
+            <option value="20%">20%</option>
+            <option value="30%">30%</option>
+          </select>
+        </div>
+        <div class="col-span-1">
+          <table>
+            <thead>
+              <tr class="border border-accent">
+                <th class="border border-accent px-4 py-2">Amount</th>
+                <th class="border border-accent px-4 py-2">Tip Percentage</th>
+                <th class="border border-accent px-4 py-2">Tip Amount</th>
+                <th class="border border-accent px-4 py-2"
+                  >Total Amount with Tip</th
+                >
+              </tr>
+            </thead>
+            <tbody id="result-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </TaskCard>
+  </div>
+</Layout>
+
+<script>
+  const amountInput = document.getElementById(
+    "amount-input",
+  ) as HTMLInputElement;
+  const tipSelect = document.getElementById("tip-select") as HTMLSelectElement;
+
+  tipSelect.addEventListener("change", () => {
+    const amount = parseFloat(amountInput.value);
+    const tipPercentage = parseFloat(tipSelect.value) / 100;
+
+    if (!isNaN(amount) && !isNaN(tipPercentage)) {
+      const totalAmount = amount + amount * tipPercentage;
+      const resultTableBody = document.getElementById(
+        "result-table-body",
+      ) as HTMLTableSectionElement;
+      const newRow = document.createElement("tr");
+      newRow.innerHTML = `
+        <td class="border border-accent px-4 py-2">${amount.toFixed(2)}</td>
+        <td class="border border-accent px-4 py-2">${(tipPercentage * 100).toFixed(0)}%</td>
+        <td class="border border-accent px-4 py-2">${(amount * tipPercentage).toFixed(2)}</td>
+        <td class="border border-accent px-4 py-2">${totalAmount.toFixed(2)}</td>
+      `;
+      resultTableBody.appendChild(newRow);
+    } else {
+      alert("Please enter a valid amount and select a tip percentage.");
+    }
+  });
+</script>

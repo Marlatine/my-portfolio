@@ -1,0 +1,104 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getCollection, render } from "astro:content";
+import Heading from "@/components/ui/Heading.astro";
+import Button from "@/components/ui/Button.astro";
+import TaskCard from "@/components/ui/taskCard.astro";
+
+const task8 = await getCollection("tasks", ({ data }) =>
+  data.title.includes("Task 8"),
+);
+
+const { Content } = await render(task8[0]);
+---
+
+<Layout
+  title="Task 8 solution | Martine Evensen"
+  description="Solution for task 8 in oblig 1"
+>
+  <div
+    class="py-34 grid grid-cols-1 items-center justify-center px-auto w-full px-16"
+  >
+    <div class="content">
+      <Content />
+    </div>
+
+    <TaskCard class:list={"bg-secondary/10 w-full"}>
+      <div class="grid grid-cols-1 gap-4 w-full">
+        <canvas id="canvas" class="w-full max-w-screen h-100"></canvas>
+        <div>
+          <Heading class:list={"mt-4"} size="h5" tag="h5">Speed:</Heading>
+          <input
+            id="speedSlider"
+            type="range"
+            min="20"
+            max="500"
+            value="100"
+            class="w-full"
+          />
+        </div>
+        <Button id="clearButton">Clear</Button>
+      </div>
+    </TaskCard>
+  </div>
+</Layout>
+
+<script>
+  const canvas = document.getElementById("canvas") as HTMLCanvasElement;
+  const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+
+  function resizeCanvas() {
+    const rect = canvas.getBoundingClientRect();
+
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+  }
+
+  resizeCanvas();
+
+  window.addEventListener("resize", resizeCanvas);
+
+  function drawBubble() {
+    const x = Math.random() * canvas.width;
+    const y = Math.random() * canvas.height;
+    const radius = Math.random() * 40 + 5;
+
+    const r = Math.random() * 255;
+    const g = Math.random() * 255;
+    const b = Math.random() * 255;
+
+    ctx.beginPath();
+    ctx.arc(x, y, radius, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${r}, ${g}, ${b}, 0.4)`;
+    ctx.fill();
+  }
+
+  const clearButton = document.getElementById(
+    "clearButton",
+  ) as HTMLButtonElement;
+  const speedSlider = document.getElementById(
+    "speedSlider",
+  ) as HTMLInputElement;
+
+  let intervalId: number;
+
+  function startAnimation() {
+    clearInterval(intervalId);
+
+    const delay = 520 - Number(speedSlider.value);
+
+    intervalId = setInterval(() => {
+      drawBubble();
+    }, delay);
+  }
+
+  clearButton.addEventListener("click", () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  });
+
+  speedSlider.addEventListener("input", () => {
+    startAnimation();
+  });
+
+  startAnimation();
+</script>

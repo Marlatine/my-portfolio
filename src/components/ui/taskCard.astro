@@ -1,0 +1,22 @@
+---
+interface Props {
+  class?: string;
+  link?: HTMLAnchorElement["href"];
+}
+
+const { class: className = "", link } = Astro.props;
+
+const Tag = link ? "a" : "div";
+
+const cardClasses = [
+  "py-8 w-full pl-8 pr-4 bg-black/10 rounded-lg shadow-md",
+  className,
+  !link && "py-12",
+]
+  .filter(Boolean)
+  .join(" ");
+---
+
+<Tag href={link} class={cardClasses}>
+  <slot />
+</Tag>

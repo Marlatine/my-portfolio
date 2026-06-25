@@ -1,0 +1,76 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getCollection, render } from "astro:content";
+import Button from "@/components/ui/Button.astro";
+import TaskCard from "@/components/ui/taskCard.astro";
+import Input from "@/components/ui/Input.astro";
+
+const task4 = await getCollection("tasks", ({ data }) =>
+  data.title.includes("Task 4"),
+);
+
+const { Content } = await render(task4[0]);
+---
+
+<Layout
+  title="Task 4 solution | Martine Evensen"
+  description="Solution for task 4 in oblig 1"
+>
+  <div
+    class="py-34 grid grid-cols-1 items-center justify-center px-auto w-full px-16"
+  >
+    <div class="content">
+      <Content />
+    </div>
+    <TaskCard
+      class:list={"w-full max-w-5xl bg-secondary/10 gap-4 flex flex-col px-8"}
+    >
+      <Input type="text" id="input-field" placeholder="Type something..." />
+      <div class="grid grid-cols-3 gap-4">
+        <Button>1</Button>
+        <Button>2</Button>
+        <Button>3</Button>
+      </div>
+      <div class="grid grid-cols-3 gap-4">
+        <Button>4</Button>
+        <Button>5</Button>
+        <Button>6</Button>
+      </div>
+      <div class="grid grid-cols-3 gap-4">
+        <Button>7</Button>
+        <Button>8</Button>
+        <Button>9</Button>
+      </div>
+      <div class="grid grid-cols-3 gap-4">
+        <Button class:list={"col-span-2"}>0</Button>
+        <Button id="backspace">⬅</Button>
+      </div>
+    </TaskCard>
+  </div>
+</Layout>
+
+<script>
+  const inputField = document.getElementById("input-field") as HTMLInputElement;
+  const backspaceButton = document.getElementById(
+    "backspace",
+  ) as HTMLButtonElement;
+  const buttons = document.querySelectorAll(
+    "button:not(#backspace)",
+  ) as NodeListOf<HTMLButtonElement>;
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      inputField.value += button.textContent;
+      if (inputField.value.length > 20) {
+        inputField.value = inputField.value.slice(0, 20);
+      }
+    });
+  });
+
+  backspaceButton.addEventListener("click", () => {
+    inputField.value = inputField.value.slice(0, -1);
+  });
+  backspaceButton.addEventListener("hold", () => {
+    inputField.value = inputField.value.slice(0, -1);
+  });
+</script>
