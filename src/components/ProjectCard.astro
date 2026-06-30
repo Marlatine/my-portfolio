@@ -4,7 +4,7 @@ import Button from "./ui/Button.astro";
 
 const { project } = Astro.props;
 
-const { image, title, description, href } = project.data;
+const { image, title, description, href, assignment = false } = project.data;
 ---
 
 <Card imageSrc={image.src} imageAlt={title} contentClass="bg-gradient-glow-top">
@@ -13,7 +13,12 @@ const { image, title, description, href } = project.data;
     {description}
   </p>
   <div class="mt-auto w-full">
-    <Button variant="primary" href={href} target="_blank" class="w-full">
+    <Button
+      variant="primary"
+      href={href}
+      target={assignment ? "" : "_blank"}
+      class="w-full"
+    >
       View project
     </Button>
   </div>

@@ -1,0 +1,150 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getCollection, render } from "astro:content";
+
+const task5 = await getCollection("tasks", ({ data }) =>
+  data.title.includes("Task 5"),
+);
+
+const { Content } = await render(task5[0]);
+---
+
+<Layout
+  title="Task 5 solution | Martine Evensen"
+  description="Solution for task 5 in oblig 1"
+>
+  <div
+    class="py-34 grid grid-cols-1 items-center justify-center px-auto w-full px-16"
+  >
+    <div class="content">
+      <Content />
+    </div>
+
+    <canvas
+      id="myCanvas"
+      width="1400"
+      height="1000"
+      class="border border-secondary rounded-2xl"></canvas>
+  </div>
+</Layout>
+
+<script>
+  const canvas = document.getElementById("myCanvas") as HTMLCanvasElement;
+  const ctx = canvas?.getContext("2d") as CanvasRenderingContext2D;
+
+  let sunX = 100;
+  const sunY = 120;
+  const sunRadius = 50;
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Sky
+    ctx.beginPath();
+    ctx.rect(0, 0, canvas.width, 900);
+    const skyGradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+
+    skyGradient.addColorStop(0, "#020b18"); // almost black blue
+    skyGradient.addColorStop(0.35, "#081a33");
+    skyGradient.addColorStop(0.7, "#18304a");
+    skyGradient.addColorStop(1, "#27435c");
+
+    ctx.fillStyle = skyGradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // moon
+    ctx.beginPath();
+
+    ctx.arc(sunX, sunY, sunRadius, 0, Math.PI * 2);
+    ctx.fillStyle = "#f3f2e7";
+    ctx.fill();
+    ctx.strokeStyle = "#f3f2e7";
+    ctx.closePath();
+
+    // ctx.shadowBlur = 30;
+    // ctx.shadowColor = "#d7d9dd";
+    // ctx.fillStyle = "#ece9df";
+
+    ctx.beginPath();
+    ctx.rect(0, 900, canvas.width, 600);
+    ctx.fillStyle = "#426b3c";
+    ctx.fill();
+
+    // The roof of the house
+    ctx.beginPath();
+    ctx.moveTo(200, 400);
+    ctx.lineTo(500, 100);
+    ctx.lineTo(800, 400);
+    ctx.fillStyle = "#7a4b2c";
+    ctx.fill();
+    ctx.strokeStyle = "#7a4b2c";
+    ctx.stroke();
+
+    // house body
+    ctx.beginPath();
+    ctx.rect(200, 400, 600, 550);
+    ctx.strokeStyle = "#7d8794";
+    ctx.lineWidth = 2;
+    ctx.fillStyle = "#7d8794";
+    ctx.fill();
+    ctx.stroke();
+
+    // The door
+    ctx.beginPath();
+    ctx.rect(320, 750, 120, 200);
+    ctx.strokeStyle = "#654024";
+    ctx.lineWidth = 2;
+    ctx.fillStyle = "#654024";
+    ctx.fill();
+    ctx.stroke();
+
+    // The windows
+    ctx.beginPath();
+    ctx.rect(560, 750, 120, 120);
+    ctx.lineWidth = 4;
+    ctx.moveTo(620, 750);
+    ctx.lineTo(620, 870);
+    ctx.moveTo(560, 810);
+    ctx.lineTo(680, 810);
+    ctx.strokeStyle = "#d8d8d8";
+    ctx.fillStyle = "#ffe89a";
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.rect(560, 510, 120, 120);
+    ctx.moveTo(620, 510);
+    ctx.lineTo(620, 630);
+    ctx.moveTo(560, 570);
+    ctx.lineTo(680, 570);
+
+    ctx.rect(320, 510, 120, 120);
+    ctx.moveTo(380, 510);
+    ctx.lineTo(380, 630);
+    ctx.moveTo(320, 570);
+    ctx.lineTo(440, 570);
+    ctx.fillStyle = "#f4d97b";
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  function update() {
+    sunX += 1;
+
+    if (sunX > canvas.width + sunRadius) {
+      sunX = -sunRadius;
+    }
+  }
+
+  function animate() {
+    update();
+    draw();
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+</script>
+
+<style>
+  canvas {
+    /* background-color: #87ceeb; */
+  }
+</style>

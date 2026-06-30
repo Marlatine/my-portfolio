@@ -1,0 +1,42 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type InputProps = HTMLAttributes<"input"> & {
+  type?: "email" | "text" | "number";
+};
+
+type Props = InputProps & {
+  variant?: "primary" | "secondary";
+  size?: "small" | "medium" | "large";
+};
+
+const {
+  size = "medium",
+  type = "text",
+  class: className,
+  max,
+  min,
+  ...rest
+} = Astro.props;
+
+const sizeStyles = {
+  small: "px-3 py-1.5 text-sm",
+  medium: "px-4 py-2 text-base",
+  large: "px-6 py-3 text-lg",
+} as const;
+
+const baseStyles =
+  "inline-flex items-center justify-center rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer transition-colors";
+
+const classes = [baseStyles, sizeStyles[size], className];
+---
+
+{
+  (
+    <input
+      type={type}
+      class:list={["border border-accent text-accent  ", classes]}
+      {...(rest as HTMLAttributes<"input">)}
+    />
+  )
+}

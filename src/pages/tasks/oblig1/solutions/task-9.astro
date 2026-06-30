@@ -1,0 +1,159 @@
+---
+import Button from "@/components/ui/Button.astro";
+import Heading from "@/components/ui/Heading.astro";
+import TaskCard from "@/components/ui/taskCard.astro";
+import Layout from "@/layouts/Layout.astro";
+import { getCollection, render } from "astro:content";
+
+const task9 = await getCollection("tasks", ({ data }) =>
+  data.title.includes("Task 9"),
+);
+
+const { Content } = await render(task9[0]);
+---
+
+<Layout
+  title="Task 9 solution | Martine Evensen"
+  description="Solution for task 9 in oblig 1"
+>
+  <div class="py-34 grid grid-cols-1 items-center justify-center w-full px-16">
+    <div class="content">
+      <Content />
+    </div>
+
+    <TaskCard class:list={"bg-secondary/10 w-full"}>
+      <div class="grid grid-cols-1 gap-4 w-full">
+        <canvas id="canvas" class="w-full h-80"></canvas>
+
+        <div>
+          <Heading class:list={"mt-4"} size="h5" tag="h5">Tempo:</Heading>
+          <input
+            id="tempoSlider"
+            type="range"
+            min="60"
+            max="200"
+            value="120"
+            class="w-full"
+          />
+          <p>BPM: <span id="tempoValue">120</span></p>
+        </div>
+
+        <div class="flex gap-4">
+          <Button id="startButton">Start</Button>
+          <Button id="stopButton">Stop</Button>
+        </div>
+      </div>
+    </TaskCard>
+  </div>
+</Layout>
+
+<script>
+  const startButton = document.getElementById(
+    "startButton",
+  ) as HTMLButtonElement;
+  const stopButton = document.getElementById("stopButton") as HTMLButtonElement;
+  const tempoSlider = document.getElementById(
+    "tempoSlider",
+  ) as HTMLInputElement;
+  const tempoValue = document.getElementById("tempoValue") as HTMLSpanElement;
+
+  const canvas = document.getElementById("canvas") as HTMLCanvasElement;
+  const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+
+  const kick = new Audio("/sounds/kick.mp3");
+  const click = new Audio("/sounds/click.mp3");
+  const beep = new Audio("/sounds/beep.mp3");
+
+  let intervalId: number;
+  let beatCount = 0;
+  let isPlaying = false;
+
+  function resizeCanvas() {
+    const rect = canvas.getBoundingClientRect();
+
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+  }
+
+  resizeCanvas();
+  window.addEventListener("resize", resizeCanvas);
+
+  function playSound(sound: HTMLAudioElement) {
+    sound.currentTime = 0;
+    sound.play();
+  }
+
+  function drawVisual() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const barCount = 16;
+    const gap = 8;
+    const barWidth = canvas.width / barCount - gap;
+
+    for (let i = 0; i < barCount; i++) {
+      const isActiveBeat = i === beatCount % barCount;
+      const randomHeight = Math.random() * canvas.height * 0.7 + 20;
+
+      const x = i * (barWidth + gap);
+      const y = canvas.height - randomHeight;
+
+      ctx.fillStyle = isActiveBeat
+        ? "rgba(255, 255, 255, 0.9)"
+        : "rgba(180, 120, 255, 0.35)";
+
+      ctx.fillRect(x, y, barWidth, randomHeight);
+    }
+  }
+
+  function playBeat() {
+    beatCount++;
+
+    playSound(kick);
+
+    if (beatCount % 2 === 0) {
+      playSound(click);
+    }
+
+    if (Math.random() > 0.6) {
+      playSound(beep);
+    }
+
+    drawVisual();
+  }
+
+  function getIntervalFromTempo() {
+    const bpm = Number(tempoSlider.value);
+    return 60000 / bpm;
+  }
+
+  function startBeat() {
+    clearInterval(intervalId);
+
+    isPlaying = true;
+
+    intervalId = setInterval(() => {
+      playBeat();
+    }, getIntervalFromTempo());
+  }
+
+  function stopBeat() {
+    clearInterval(intervalId);
+    isPlaying = false;
+  }
+
+  startButton.addEventListener("click", () => {
+    startBeat();
+  });
+
+  stopButton.addEventListener("click", () => {
+    stopBeat();
+  });
+
+  tempoSlider.addEventListener("input", () => {
+    tempoValue.textContent = tempoSlider.value;
+
+    if (isPlaying) {
+      startBeat();
+    }
+  });
+</script>

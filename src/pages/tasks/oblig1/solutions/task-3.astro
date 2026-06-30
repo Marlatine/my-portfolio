@@ -1,0 +1,124 @@
+---
+import Button from "@/components/ui/Button.astro";
+import Heading from "@/components/ui/Heading.astro";
+import Input from "@/components/ui/Input.astro";
+import TaskCard from "@/components/ui/taskCard.astro";
+import Layout from "@/layouts/Layout.astro";
+import { getCollection, render } from "astro:content";
+
+const task3 = await getCollection("tasks", ({ data }) =>
+  data.title.includes("Task 3"),
+);
+
+const { Content } = await render(task3[0]);
+---
+
+<Layout
+  title="Task 3 solution | Martine Evensen"
+  description="Solution for task 3 in oblig 1"
+>
+  <div
+    class="py-34 grid grid-cols-1 items-center justify-center px-auto w-full px-16"
+  >
+    <div class="content">
+      <Content />
+    </div>
+    <TaskCard
+      class:list={"w-full max-w-3xl bg-secondary/10 gap-4 grid grid-cols-2"}
+    >
+      <form target="_self" class="flex flex-col gap-4">
+        <Input type="number" id="num1" required class="max-w-54" />
+        <Input type="number" id="num2" required class="max-w-54" />
+        <div class="flex gap-4">
+          <Button data-operation="add">+</Button>
+          <Button data-operation="subtract">-</Button>
+          <Button data-operation="multiply">*</Button>
+          <Button data-operation="divide">/</Button>
+        </div>
+        <p id="error-message" class="mt-4"></p>
+        <p id="result" class="text-xl font-semibold mt-4"></p>
+      </form>
+      <div>
+        <Heading class:list={"font-bold hidden!"} size="h5" tag="h5"
+          >Recent calculations:</Heading
+        >
+        <ul class="recent-calculations"></ul>
+      </div>
+    </TaskCard>
+  </div>
+</Layout>
+
+<script>
+  const num1Input = document.getElementById("num1") as HTMLInputElement;
+  const num2Input = document.getElementById("num2") as HTMLInputElement;
+  const resultParagraph = document.getElementById(
+    "result",
+  ) as HTMLParagraphElement;
+  const errorMessageParagraph = document.getElementById(
+    "error-message",
+  ) as HTMLParagraphElement;
+  const operationButtons = document.querySelectorAll(
+    "button[data-operation]",
+  ) as NodeListOf<HTMLButtonElement>;
+
+  operationButtons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      if (!num1Input.value || !num2Input.value) {
+        resultParagraph.textContent = "";
+        errorMessageParagraph.textContent = "Vennligst fyll inn begge tallene.";
+        return;
+      }
+
+      const num1 = parseFloat(num1Input.value);
+      const num2 = parseFloat(num2Input.value);
+      const operation = button.dataset.operation;
+
+      let result: number | string;
+
+      switch (operation) {
+        case "add":
+          result = num1 + num2;
+          break;
+        case "subtract":
+          result = num1 - num2;
+          break;
+        case "multiply":
+          result = num1 * num2;
+          break;
+        case "divide":
+          if (num2 === 0) {
+            result = "Error: Kan ikke dele på null";
+          } else {
+            result = num1 / num2;
+          }
+          break;
+        default:
+          result = "Unknown operation";
+      }
+
+      function renderHistory() {
+        const historyHeading = document.querySelector(
+          "h5",
+        ) as HTMLHeadingElement;
+        historyHeading.classList.remove("hidden!");
+        const recentCalculationsList = document.querySelector(
+          ".recent-calculations",
+        ) as HTMLUListElement;
+        const newHistoryItem = document.createElement("li");
+        newHistoryItem.textContent = resultParagraph.textContent || "";
+        recentCalculationsList.appendChild(newHistoryItem);
+      }
+
+      if (num1.toString().length !== 0 && num2.toString().length !== 0) {
+        errorMessageParagraph.textContent = "";
+        resultParagraph.textContent = `${num1} ${button.textContent} ${num2} = ${result}`;
+        renderHistory();
+      } else {
+        resultParagraph.textContent = "";
+        errorMessageParagraph.textContent = "Vennligst fyll inn begge tallene.";
+      }
+    });
+  });
+</script>

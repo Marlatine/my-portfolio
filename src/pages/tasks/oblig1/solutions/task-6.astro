@@ -1,0 +1,239 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getCollection, render } from "astro:content";
+import Button from "@/components/ui/Button.astro";
+import Input from "@/components/ui/Input.astro";
+import TaskCard from "@/components/ui/taskCard.astro";
+
+const task6 = await getCollection("tasks", ({ data }) =>
+  data.title.includes("Task 6"),
+);
+
+const { Content } = await render(task6[0]);
+---
+
+<Layout
+  title="Task 6 solution | Martine Evensen"
+  description="Solution for task 6 in oblig 1"
+>
+  <div
+    class="py-34 grid grid-cols-1 items-center justify-center px-auto w-full px-16"
+  >
+    <div class="content">
+      <Content />
+    </div>
+
+    <TaskCard class:list={"bg-secondary/10 w-full"}>
+      <div class="grid grid-cols-2">
+        <form action="#" class="flex flex-col gap-4 col-span-1">
+          <div class="flex gap-4">
+            <Input type="text" readonly value="T-shirt" placeholder="T-shirt" />
+            <Input
+              type="number"
+              value="1"
+              min="1"
+              max="15"
+              placeholder="Quantity"
+            />
+            <Button variant="primary" id="add-t-shirt">Add to list</Button>
+          </div>
+          <div class="flex gap-4">
+            <Input type="text" readonly value="Jacket" placeholder="Jacket" />
+            <Input
+              type="number"
+              value="1"
+              min="1"
+              max="15"
+              placeholder="Quantity"
+            />
+            <Button variant="primary" id="add-jacket">Add to list</Button>
+          </div>
+          <div class="flex gap-4">
+            <Input type="text" readonly value="Jeans" placeholder="Jeans" />
+            <Input
+              type="number"
+              value="1"
+              min="1"
+              max="15"
+              placeholder="Quantity"
+            />
+            <Button variant="primary" id="add-jeans">Add to list</Button>
+          </div>
+        </form>
+        <div class="col-span-1 w-full h-full relative">
+          <ul id="shopping-list" class="flex flex-col gap-4 px-8"></ul>
+          <p id="total-quantity" class="font-bold hidden"></p>
+        </div>
+      </div>
+    </TaskCard>
+  </div>
+</Layout>
+
+<script>
+  type ShoppingItem = {
+    name: string;
+    quantity: number;
+  };
+
+  let shoppingList: ShoppingItem[] = [];
+
+  function updateShoppingList() {
+    const shoppingListElement = document.getElementById(
+      "shopping-list",
+    ) as HTMLUListElement;
+    const totalQuantityElement = document.getElementById(
+      "total-quantity",
+    ) as HTMLParagraphElement;
+    shoppingListElement.innerHTML = "";
+    let totalQuantity = 0;
+    shoppingList.forEach((item) => {
+      const listItem = document.createElement("li");
+      listItem.classList.add(
+        "flex",
+        "items-center",
+        "justify-between",
+        "px-4",
+        "pb-2",
+        "border-b",
+        "border-accent",
+        "shadow",
+      );
+
+      const actionContainer = document.createElement("div");
+      actionContainer.classList.add("flex", "gap-2", "items-center");
+
+      const removeButton = document.createElement("button");
+      removeButton.textContent = "Remove";
+      removeButton.classList.add(
+        "text-red-500",
+        "hover:text-white",
+        "hover:bg-red-500",
+        "border",
+        "border-red-500",
+        "rounded",
+        "px-2",
+        "py-2",
+        "text-sm",
+        "cursor-pointer",
+      );
+
+      removeButton.addEventListener("click", () => {
+        shoppingList = shoppingList.filter(
+          (shoppingItem) => shoppingItem.name !== item.name,
+        );
+        updateShoppingList();
+      });
+
+      const quantityInput = document.createElement("input");
+      quantityInput.type = "number";
+      quantityInput.value = item.quantity.toString();
+      quantityInput.min = "1";
+      quantityInput.classList.add(
+        "w-16",
+        "px-2",
+        "py-2",
+        "border",
+        "border-accent",
+        "rounded",
+        "text-sm",
+        "text-center",
+      );
+
+      quantityInput.addEventListener("change", () => {
+        item.quantity = parseInt(quantityInput.value) || 1;
+        updateShoppingList();
+      });
+
+      listItem.textContent = `${item.name}`;
+      actionContainer.appendChild(quantityInput);
+      actionContainer.appendChild(removeButton);
+      listItem.appendChild(actionContainer);
+      shoppingListElement.appendChild(listItem);
+      totalQuantity += item.quantity;
+    });
+    totalQuantityElement.textContent = `Total items: ${totalQuantity}`;
+    if (totalQuantity === 0) {
+      totalQuantityElement.classList.add("hidden");
+    } else {
+      totalQuantityElement.classList.remove("hidden");
+      totalQuantityElement.classList.add(
+        "flex",
+        "justify-center",
+        "w-full",
+        "items-end",
+        "px-4",
+        "pt-4",
+      );
+    }
+  }
+
+  const addTShirtButton = document.getElementById(
+    "add-t-shirt",
+  ) as HTMLButtonElement;
+
+  const tshirtQuantityInput =
+    addTShirtButton.previousElementSibling as HTMLInputElement;
+
+  const addJacketButton = document.getElementById(
+    "add-jacket",
+  ) as HTMLButtonElement;
+
+  const jacketQuantityInput =
+    addJacketButton.previousElementSibling as HTMLInputElement;
+
+  const addJeansButton = document.getElementById(
+    "add-jeans",
+  ) as HTMLButtonElement;
+
+  const jeansQuantityInput =
+    addJeansButton.previousElementSibling as HTMLInputElement;
+
+  addTShirtButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (shoppingList.some((item) => item.name === "T-shirt")) {
+      const item = shoppingList.find((item) => item.name === "T-shirt");
+      if (item) {
+        item.quantity += parseInt(tshirtQuantityInput.value) || 1;
+      }
+    } else {
+      shoppingList.push({
+        name: "T-shirt",
+        quantity: parseInt(tshirtQuantityInput.value) || 1,
+      });
+    }
+    updateShoppingList();
+  });
+
+  addJacketButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (shoppingList.some((item) => item.name === "Jacket")) {
+      const item = shoppingList.find((item) => item.name === "Jacket");
+      if (item) {
+        item.quantity += parseInt(jacketQuantityInput.value) || 1;
+      }
+    } else {
+      shoppingList.push({
+        name: "Jacket",
+        quantity: parseInt(jacketQuantityInput.value) || 1,
+      });
+    }
+    updateShoppingList();
+  });
+
+  addJeansButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (shoppingList.some((item) => item.name === "Jeans")) {
+      const item = shoppingList.find((item) => item.name === "Jeans");
+      if (item) {
+        item.quantity += parseInt(jeansQuantityInput.value) || 1;
+      }
+    } else {
+      shoppingList.push({
+        name: "Jeans",
+        quantity: parseInt(jeansQuantityInput.value) || 1,
+      });
+    }
+
+    updateShoppingList();
+  });
+</script>

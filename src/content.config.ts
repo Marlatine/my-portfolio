@@ -58,9 +58,21 @@ const blog = defineCollection({
     }),
 })
 
+const tasks = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/tasks' }),
+
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    solution: z.string(),
+  }),
+})
+
+
 
 export const collections = {
     projects,
     experience,
     blog,
+    tasks,
 }

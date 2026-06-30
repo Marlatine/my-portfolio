@@ -1,0 +1,39 @@
+---
+import BlogCard from "@/components/BlogCard.astro";
+import Card from "@/components/ui/Card.astro";
+import Heading from "@/components/ui/Heading.astro";
+import TaskCard from "@/components/ui/taskCard.astro";
+import Layout from "@/layouts/Layout.astro";
+import type { GetStaticPaths } from "astro";
+import { getCollection } from "astro:content";
+
+const tasks = await getCollection("tasks");
+
+const sortedTasks = tasks.sort((a, b) =>
+  a.data.title.localeCompare(b.data.title),
+);
+---
+
+<Layout title="Tasks | Martine Evensen" description="Tasks for oblig 1">
+  <div class="py-34 flex flex-col items-center gap-6 w-full px-8">
+    <section
+      class="flex flex-col gap-4 w-full px-8 py-12 rounded-lg items-center justify-center"
+    >
+      <Heading tag="h1" size="h1" icon="assignment" iconSize={46}>
+        Tasks for oblig 1
+      </Heading>
+      {
+        sortedTasks.map((task) => (
+          <TaskCard
+            class:list={
+              "max-w-xl bg-secondary/30 hover:bg-secondary/50 transition-colors duration-300 hover:cursor-pointer"
+            }
+            link={task.data.solution}
+          >
+            {task.data.title}
+          </TaskCard>
+        ))
+      }
+    </section>
+  </div>
+</Layout>
