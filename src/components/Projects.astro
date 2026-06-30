@@ -2,6 +2,7 @@
 import ProjectCard from "@/components/ProjectCard.astro";
 import { getCollection } from "astro:content";
 import Link from "./ui/Link.astro";
+import assignmentThumb from "@/assets/project-thumbnails/assignmentThumb.png";
 
 type Props = {
   limit?: number;
@@ -15,7 +16,7 @@ const mandatoryAssignment = {
     data: {
       title: "Oblig 1",
       description: "Mandatory assignments",
-      image: { src: "/src/assets/project-thumbnails/assignmentThumb.png" },
+      image: { src: assignmentThumb.src },
       href: "/tasks/oblig1/",
       assignment: true,
     },
